@@ -1,0 +1,16 @@
+Student ID: 101
+Name: simi
+Age: 21
+Gender: female
+Address: ktm
+Phone: 9814839033
+Email: yamunakdk7@gmail.com
+Course: it
+Semester: 2
+Organization: 80.0
+Operating System: 85.0
+OOP: 85.0
+Networking: 90.0
+Ethics: 70.0
+Marks Added: true
+------------------------------
