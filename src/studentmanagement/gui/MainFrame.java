@@ -1,17 +1,12 @@
 package studentmanagement.gui;
 
-import studentmanagement.AddMarksFrame;
-import studentmanagement.UpdateMarksFrame;
-import studentmanagement.ViewMarksFrame;
-
-
-
-import studentmanagement.DatabaseConnection;
+import studentmanagement.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -19,33 +14,50 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class MainFrame extends JFrame {
 
     // =========================================================
-    // COLORS
+    // MODERN COLOR PALETTE
     // =========================================================
 
     private final Color SIDEBAR =
-            new Color(31, 41, 55);
+            new Color(48, 36, 43);
 
     private final Color SIDEBAR_DARK =
-            new Color(24, 32, 45);
+            new Color(67, 45, 54);
+
+    private final Color SIDEBAR_ACTIVE =
+            new Color(139, 80, 93);
 
     private final Color BACKGROUND =
-            new Color(245, 247, 250);
+            new Color(248, 244, 246);
 
     private final Color CARD =
-            Color.WHITE;
+            new Color(255, 255, 255);
 
     private final Color TEXT =
-            new Color(31, 41, 55);
+            new Color(48, 38, 43);
 
     private final Color SECONDARY =
-            new Color(107, 114, 128);
+            new Color(120, 105, 112);
 
     private final Color PRIMARY =
-            new Color(59, 130, 246);
+            new Color(139, 80, 93);
+
+    private final Color PRIMARY_DARK =
+            new Color(112, 61, 74);
+
+    private final Color BORDER =
+            new Color(232, 222, 226);
+
+    private final Color SUCCESS =
+            new Color(62, 132, 94);
+
+    private final Color WARNING =
+            new Color(194, 139, 63);
+
+    private final Color LIGHT_PRIMARY =
+            new Color(246, 235, 239);
 
     // =========================================================
     // CONSTRUCTOR
@@ -56,8 +68,15 @@ public class MainFrame extends JFrame {
         setTitle("Student Management System");
 
         setSize(
-                1150,
-                700
+                1200,
+                750
+        );
+
+        setMinimumSize(
+                new Dimension(
+                        1050,
+                        650
+                )
         );
 
         setDefaultCloseOperation(
@@ -66,7 +85,9 @@ public class MainFrame extends JFrame {
 
         setLocationRelativeTo(null);
 
-        // Main container
+        // =====================================================
+        // MAIN PANEL
+        // =====================================================
 
         JPanel mainPanel =
                 new JPanel(
@@ -77,7 +98,9 @@ public class MainFrame extends JFrame {
                 BACKGROUND
         );
 
-        // Sidebar
+        // =====================================================
+        // SIDEBAR
+        // =====================================================
 
         JPanel sidebar =
                 createSidebar();
@@ -87,7 +110,9 @@ public class MainFrame extends JFrame {
                 BorderLayout.WEST
         );
 
-        // Right side
+        // =====================================================
+        // RIGHT SIDE
+        // =====================================================
 
         JPanel rightPanel =
                 new JPanel(
@@ -98,7 +123,9 @@ public class MainFrame extends JFrame {
                 BACKGROUND
         );
 
-        // Header
+        // =====================================================
+        // HEADER
+        // =====================================================
 
         JPanel header =
                 createHeader();
@@ -108,11 +135,12 @@ public class MainFrame extends JFrame {
                 BorderLayout.NORTH
         );
 
-        // Dashboard
+        // =====================================================
+        // DASHBOARD
+        // =====================================================
 
         JPanel dashboard =
                 createDashboard();
-
 
         JScrollPane scrollPane =
                 new JScrollPane(
@@ -125,6 +153,10 @@ public class MainFrame extends JFrame {
 
         scrollPane.setHorizontalScrollBarPolicy(
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
+
+        scrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
         );
 
         scrollPane.getVerticalScrollBar()
@@ -154,7 +186,7 @@ public class MainFrame extends JFrame {
 
         sidebar.setPreferredSize(
                 new Dimension(
-                        220,
+                        235,
                         700
                 )
         );
@@ -172,10 +204,10 @@ public class MainFrame extends JFrame {
 
         sidebar.setBorder(
                 new EmptyBorder(
+                        30,
+                        18,
                         25,
-                        15,
-                        20,
-                        15
+                        18
                 )
         );
 
@@ -196,7 +228,7 @@ public class MainFrame extends JFrame {
                 new Font(
                         "Arial",
                         Font.BOLD,
-                        20
+                        21
                 )
         );
 
@@ -217,9 +249,9 @@ public class MainFrame extends JFrame {
 
         version.setForeground(
                 new Color(
+                        190,
                         170,
-                        180,
-                        195
+                        180
                 )
         );
 
@@ -238,7 +270,7 @@ public class MainFrame extends JFrame {
         sidebar.add(version);
 
         sidebar.add(
-                Box.createVerticalStrut(40)
+                Box.createVerticalStrut(45)
         );
 
         // =====================================================
@@ -252,9 +284,9 @@ public class MainFrame extends JFrame {
 
         menuTitle.setForeground(
                 new Color(
-                        150,
-                        160,
-                        175
+                        175,
+                        155,
+                        165
                 )
         );
 
@@ -273,7 +305,7 @@ public class MainFrame extends JFrame {
         sidebar.add(menuTitle);
 
         sidebar.add(
-                Box.createVerticalStrut(10)
+                Box.createVerticalStrut(12)
         );
 
         // =====================================================
@@ -290,7 +322,7 @@ public class MainFrame extends JFrame {
         );
 
         sidebar.add(
-                Box.createVerticalStrut(5)
+                Box.createVerticalStrut(7)
         );
 
         // =====================================================
@@ -317,7 +349,7 @@ public class MainFrame extends JFrame {
         );
 
         sidebar.add(
-                Box.createVerticalStrut(5)
+                Box.createVerticalStrut(7)
         );
 
         // =====================================================
@@ -344,7 +376,7 @@ public class MainFrame extends JFrame {
         );
 
         sidebar.add(
-                Box.createVerticalStrut(5)
+                Box.createVerticalStrut(7)
         );
 
         // =====================================================
@@ -355,20 +387,23 @@ public class MainFrame extends JFrame {
                 createMenuButton(
                         "Reports"
                 );
-        reportsButton.addActionListener(e -> {
 
-            ReportsFrame frame =
-                    new ReportsFrame();
+        reportsButton.addActionListener(
+                e -> {
 
-            frame.setVisible(true);
-        });
+                    ReportsFrame frame =
+                            new ReportsFrame();
+
+                    frame.setVisible(true);
+                }
+        );
 
         sidebar.add(
                 reportsButton
         );
 
         sidebar.add(
-                Box.createVerticalStrut(5)
+                Box.createVerticalStrut(7)
         );
 
         // =====================================================
@@ -384,7 +419,9 @@ public class MainFrame extends JFrame {
                 settingsButton
         );
 
-        // Push Exit to bottom
+        // =====================================================
+        // PUSH EXIT TO BOTTOM
+        // =====================================================
 
         sidebar.add(
                 Box.createVerticalGlue()
@@ -400,7 +437,22 @@ public class MainFrame extends JFrame {
                 );
 
         exitButton.addActionListener(
-                e -> System.exit(0)
+                e -> {
+
+                    int result =
+                            JOptionPane.showConfirmDialog(
+                                    this,
+                                    "Are you sure you want to exit?",
+                                    "Exit System",
+                                    JOptionPane.YES_NO_OPTION
+                            );
+
+                    if (result ==
+                            JOptionPane.YES_OPTION) {
+
+                        System.exit(0);
+                    }
+                }
         );
 
         sidebar.add(
@@ -419,12 +471,54 @@ public class MainFrame extends JFrame {
     ) {
 
         JButton button =
-                new JButton(text);
+                new JButton(text) {
+
+                    @Override
+                    protected void paintComponent(
+                            Graphics g
+                    ) {
+
+                        Graphics2D g2 =
+                                (Graphics2D)
+                                        g.create();
+
+                        g2.setRenderingHint(
+                                RenderingHints.KEY_ANTIALIASING,
+                                RenderingHints.VALUE_ANTIALIAS_ON
+                        );
+
+                        if (getModel().isRollover()) {
+
+                            g2.setColor(
+                                    SIDEBAR_ACTIVE
+                            );
+
+                        } else {
+
+                            g2.setColor(
+                                    SIDEBAR
+                            );
+                        }
+
+                        g2.fillRoundRect(
+                                0,
+                                0,
+                                getWidth(),
+                                getHeight(),
+                                12,
+                                12
+                        );
+
+                        g2.dispose();
+
+                        super.paintComponent(g);
+                    }
+                };
 
         button.setMaximumSize(
                 new Dimension(
                         Integer.MAX_VALUE,
-                        45
+                        46
                 )
         );
 
@@ -438,10 +532,6 @@ public class MainFrame extends JFrame {
 
         button.setForeground(
                 Color.WHITE
-        );
-
-        button.setBackground(
-                SIDEBAR
         );
 
         button.setFont(
@@ -465,135 +555,14 @@ public class MainFrame extends JFrame {
 
         button.setBorderPainted(false);
 
-        button.setContentAreaFilled(true);
+        button.setContentAreaFilled(false);
 
-        button.setOpaque(true);
-
-        button.setCursor(
-                new Cursor(
-                        Cursor.HAND_CURSOR
-                )
-        );
-
-        // Hover effect
-
-        button.addMouseListener(
-                new MouseAdapter() {
-
-                    @Override
-                    public void mouseEntered(
-                            MouseEvent e
-                    ) {
-
-                        button.setBackground(
-                                SIDEBAR_DARK
-                        );
-                    }
-
-                    @Override
-                    public void mouseExited(
-                            MouseEvent e
-                    ) {
-
-                        button.setBackground(
-                                SIDEBAR
-                        );
-                    }
-                }
-        );
-
-        return button;
-    }
-
-    // =========================================================
-    // ACTION BUTTON
-    // =========================================================
-
-    private JButton createActionButton(
-            String text
-    ) {
-
-        JButton button =
-                new JButton(text);
-
-        button.setPreferredSize(
-                new Dimension(
-                        145,
-                        40
-                )
-        );
-
-        button.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        13
-                )
-        );
-
-        button.setForeground(
-                TEXT
-        );
-
-        button.setBackground(
-                Color.WHITE
-        );
-
-        button.setFocusPainted(false);
-
-        button.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        210,
-                                        214,
-                                        220
-                                )
-                        ),
-                        BorderFactory.createEmptyBorder(
-                                8,
-                                12,
-                                8,
-                                12
-                        )
-                )
-        );
+        button.setOpaque(false);
 
         button.setCursor(
                 new Cursor(
                         Cursor.HAND_CURSOR
                 )
-        );
-
-        // Hover
-
-        button.addMouseListener(
-                new MouseAdapter() {
-
-                    @Override
-                    public void mouseEntered(
-                            MouseEvent e
-                    ) {
-
-                        button.setBackground(
-                                new Color(
-                                        240,
-                                        244,
-                                        248
-                                )
-                        );
-                    }
-
-                    @Override
-                    public void mouseExited(
-                            MouseEvent e
-                    ) {
-
-                        button.setBackground(
-                                Color.WHITE
-                        );
-                    }
-                }
         );
 
         return button;
@@ -617,7 +586,7 @@ public class MainFrame extends JFrame {
         header.setPreferredSize(
                 new Dimension(
                         0,
-                        75
+                        82
                 )
         );
 
@@ -630,6 +599,10 @@ public class MainFrame extends JFrame {
                 )
         );
 
+        // =====================================================
+        // TITLE
+        // =====================================================
+
         JLabel title =
                 new JLabel(
                         "Dashboard"
@@ -639,7 +612,7 @@ public class MainFrame extends JFrame {
                 new Font(
                         "Arial",
                         Font.BOLD,
-                        22
+                        24
                 )
         );
 
@@ -647,30 +620,47 @@ public class MainFrame extends JFrame {
                 TEXT
         );
 
+        // =====================================================
+        // REFRESH BUTTON
+        // =====================================================
+
+        JButton refreshButton =
+                createActionButton(
+                        "↻  Refresh"
+                );
+
+        refreshButton.setPreferredSize(
+                new Dimension(
+                        120,
+                        40
+                )
+        );
+
+        refreshButton.addActionListener(
+                e -> {
+
+                    dispose();
+
+                    SwingUtilities.invokeLater(
+                            () -> {
+
+                                MainFrame frame =
+                                        new MainFrame();
+
+                                frame.setVisible(true);
+                            }
+                    );
+                }
+        );
+
+        // =====================================================
+        // ADMIN
+        // =====================================================
+
         JLabel admin =
                 new JLabel(
                         "Administrator"
                 );
-        JButton refreshButton =
-                new JButton("Refresh");
-
-        refreshButton.setFocusPainted(false);
-        refreshButton.setCursor(
-                new Cursor(Cursor.HAND_CURSOR)
-        );
-
-        refreshButton.addActionListener(e -> {
-
-            dispose();
-
-            SwingUtilities.invokeLater(() -> {
-
-                MainFrame frame =
-                        new MainFrame();
-
-                frame.setVisible(true);
-            });
-        });
 
         admin.setFont(
                 new Font(
@@ -684,23 +674,35 @@ public class MainFrame extends JFrame {
                 SECONDARY
         );
 
-        header.add(
-                title,
-                BorderLayout.WEST
-        );
+        // =====================================================
+        // HEADER RIGHT
+        // =====================================================
+
         JPanel rightHeader =
                 new JPanel(
                         new FlowLayout(
                                 FlowLayout.RIGHT,
-                                10,
+                                12,
                                 0
                         )
                 );
 
-        rightHeader.setBackground(Color.WHITE);
+        rightHeader.setBackground(
+                Color.WHITE
+        );
 
-        rightHeader.add(refreshButton);
-        rightHeader.add(admin);
+        rightHeader.add(
+                refreshButton
+        );
+
+        rightHeader.add(
+                admin
+        );
+
+        header.add(
+                title,
+                BorderLayout.WEST
+        );
 
         header.add(
                 rightHeader,
@@ -734,7 +736,7 @@ public class MainFrame extends JFrame {
                 new EmptyBorder(
                         30,
                         30,
-                        30,
+                        40,
                         30
                 )
         );
@@ -752,7 +754,7 @@ public class MainFrame extends JFrame {
                 new Font(
                         "Arial",
                         Font.BOLD,
-                        26
+                        27
                 )
         );
 
@@ -769,8 +771,12 @@ public class MainFrame extends JFrame {
         );
 
         dashboard.add(
-                Box.createVerticalStrut(5)
+                Box.createVerticalStrut(6)
         );
+
+        // =====================================================
+        // DESCRIPTION
+        // =====================================================
 
         JLabel description =
                 new JLabel(
@@ -798,7 +804,7 @@ public class MainFrame extends JFrame {
         );
 
         dashboard.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(28)
         );
 
         // =====================================================
@@ -810,7 +816,7 @@ public class MainFrame extends JFrame {
                         new GridLayout(
                                 1,
                                 3,
-                                15,
+                                18,
                                 0
                         )
                 );
@@ -822,7 +828,7 @@ public class MainFrame extends JFrame {
         stats.setMaximumSize(
                 new Dimension(
                         Integer.MAX_VALUE,
-                        110
+                        125
                 )
         );
 
@@ -832,7 +838,8 @@ public class MainFrame extends JFrame {
                         String.valueOf(
                                 getStudentCount()
                         ),
-                        "Total Students"
+                        "Total Students",
+                        PRIMARY
                 )
         );
 
@@ -842,7 +849,8 @@ public class MainFrame extends JFrame {
                         String.valueOf(
                                 getMarksCount()
                         ),
-                        "Academic Records"
+                        "Academic Records",
+                        WARNING
                 )
         );
 
@@ -850,7 +858,8 @@ public class MainFrame extends JFrame {
                 createStatCard(
                         "DATABASE",
                         getDatabaseStatus(),
-                        "MySQL Connection"
+                        "MySQL Connection",
+                        SUCCESS
                 )
         );
 
@@ -859,270 +868,124 @@ public class MainFrame extends JFrame {
         );
 
         dashboard.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(30)
         );
 
         // =====================================================
         // STUDENT MANAGEMENT
         // =====================================================
 
-        JLabel studentTitle =
-                new JLabel(
-                        "Student Management"
-                );
-
-        studentTitle.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
-
-        studentTitle.setForeground(
-                TEXT
-        );
-
-        studentTitle.setAlignmentX(
-                Component.LEFT_ALIGNMENT
-        );
-
-        dashboard.add(
-                studentTitle
-        );
-
-        dashboard.add(
-                Box.createVerticalStrut(10)
-        );
-        dashboard.add(
+        addSection(
+                dashboard,
+                "Student Management",
                 createStudentCard()
         );
 
         dashboard.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(28)
         );
 
+        // =====================================================
+        // COURSE MANAGEMENT
+        // =====================================================
 
-// =========================================================
-
-
-
-// =====================================================
-// COURSE MANAGEMENT
-// =====================================================
-// =====================================================
-// COURSE MANAGEMENT
-// =====================================================
-
-        JLabel courseManagementTitle =
-                new JLabel("Course Management");
-
-        courseManagementTitle.setFont(                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
-
-        courseManagementTitle.setForeground(TEXT);
-
-
-        courseManagementTitle.setAlignmentX(
-                Component.LEFT_ALIGNMENT
-        );
-
-// ADD COURSE TITLE
-        dashboard.add(courseManagementTitle);
-        dashboard.add(
-                Box.createVerticalStrut(10)
-        );
-
-// COURSE BUTTONS
-        dashboard.add(
+        addSection(
+                dashboard,
+                "Course Management",
                 createCourseCard()
         );
 
         dashboard.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(28)
         );
 
         // =====================================================
+        // SUBJECT MANAGEMENT
+        // =====================================================
 
-// SUBJECT MANAGEMENT
-// =====================================================
-
-        JLabel subjectTitle =
-                new JLabel("Subject Management");
-
-        subjectTitle.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
-
-        subjectTitle.setForeground(TEXT);
-
-        subjectTitle.setAlignmentX(
-                Component.LEFT_ALIGNMENT
-        );
-
-        dashboard.add(subjectTitle);
-
-        dashboard.add(
-                Box.createVerticalStrut(10)
-        );
-
-        dashboard.add(
+        addSection(
+                dashboard,
+                "Subject Management",
                 createSubjectCard()
         );
 
         dashboard.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(28)
         );
-
-
-
 
         // =====================================================
         // MARKS MANAGEMENT
         // =====================================================
 
-        JLabel marksTitle =
-                new JLabel(
-                        "Marks Management"
-                );
-
-        marksTitle.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
-
-        marksTitle.setForeground(
-                TEXT
-        );
-
-        marksTitle.setAlignmentX(
-                Component.LEFT_ALIGNMENT
-        );
-
-        dashboard.add(
-                marksTitle
-        );
-
-        dashboard.add(
-                Box.createVerticalStrut(10)
-        );
-
-        dashboard.add(
+        addSection(
+                dashboard,
+                "Marks Management",
                 createMarksCard()
         );
 
         dashboard.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(28)
         );
+
         // =====================================================
-// =====================================================
-// ATTENDANCE MANAGEMENT
-// =====================================================
+        // ATTENDANCE MANAGEMENT
+        // =====================================================
 
-        JLabel attendanceTitle =
-                new JLabel("Attendance Management");
-
-        attendanceTitle.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
-
-        attendanceTitle.setForeground(TEXT);
-
-        attendanceTitle.setAlignmentX(
-                Component.LEFT_ALIGNMENT
-        );
-
-        dashboard.add(attendanceTitle);
-
-        dashboard.add(
-                Box.createVerticalStrut(10)
-        );
-
-        dashboard.add(
+        addSection(
+                dashboard,
+                "Attendance Management",
                 createAttendanceCard()
         );
 
         dashboard.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(28)
         );
 
+        // =====================================================
+        // RESULTS MANAGEMENT
+        // =====================================================
 
-// =====================================================
-// RESULTS MANAGEMENT
-// =====================================================
-
-        JLabel resultTitle =
-                new JLabel("Results Management");
-
-        resultTitle.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
-
-        resultTitle.setForeground(TEXT);
-
-        resultTitle.setAlignmentX(
-                Component.LEFT_ALIGNMENT
-        );
-
-        dashboard.add(resultTitle);
-
-        dashboard.add(
-                Box.createVerticalStrut(10)
-        );
-
-        dashboard.add(
+        addSection(
+                dashboard,
+                "Results Management",
                 createResultCard()
         );
 
         dashboard.add(
-                Box.createVerticalStrut(25)
+                Box.createVerticalStrut(30)
         );
 
-
-// =====================================================
-// RECENT STUDENTS
-// =====================================================
+        // =====================================================
+        // RECENT STUDENTS
+        // =====================================================
 
         JLabel recentTitle =
-                new JLabel("Recent Students");
+                new JLabel(
+                        "Recent Students"
+                );
 
         recentTitle.setFont(
                 new Font(
                         "Arial",
                         Font.BOLD,
-                        18
+                        19
                 )
         );
 
-        recentTitle.setForeground(TEXT);
+        recentTitle.setForeground(
+                TEXT
+        );
 
         recentTitle.setAlignmentX(
                 Component.LEFT_ALIGNMENT
         );
 
-        dashboard.add(recentTitle);
+        dashboard.add(
+                recentTitle
+        );
 
         dashboard.add(
-                Box.createVerticalStrut(10)
+                Box.createVerticalStrut(12)
         );
 
         dashboard.add(
@@ -1133,22 +996,65 @@ public class MainFrame extends JFrame {
     }
 
     // =========================================================
+    // ADD SECTION
+    // =========================================================
+
+    private void addSection(
+            JPanel dashboard,
+            String title,
+            JPanel card
+    ) {
+
+        JLabel label =
+                new JLabel(title);
+
+        label.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        19
+                )
+        );
+
+        label.setForeground(
+                TEXT
+        );
+
+        label.setAlignmentX(
+                Component.LEFT_ALIGNMENT
+        );
+
+        dashboard.add(
+                label
+        );
+
+        dashboard.add(
+                Box.createVerticalStrut(12)
+        );
+
+        dashboard.add(
+                card
+        );
+    }
+
+    // =========================================================
     // STAT CARD
     // =========================================================
 
     private JPanel createStatCard(
             String title,
             String value,
-            String description
+            String description,
+            Color accentColor
     ) {
 
-        JPanel card =
-                new JPanel();
+        RoundedPanel card =
+                new RoundedPanel(18);
 
         card.setLayout(
-                new BoxLayout(
-                        card,
-                        BoxLayout.Y_AXIS
+                new BorderLayout(
+                        15,
+                        0
                 )
         );
 
@@ -1157,20 +1063,45 @@ public class MainFrame extends JFrame {
         );
 
         card.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        225,
-                                        228,
-                                        233
-                                )
-                        ),
-                        new EmptyBorder(
-                                15,
-                                20,
-                                15,
-                                20
-                        )
+                new EmptyBorder(
+                        18,
+                        18,
+                        18,
+                        20
+                )
+        );
+
+        // =====================================================
+        // ACCENT BAR
+        // =====================================================
+
+        JPanel accent =
+                new JPanel();
+
+        accent.setPreferredSize(
+                new Dimension(
+                        5,
+                        70
+                )
+        );
+
+        accent.setBackground(
+                accentColor
+        );
+
+        // =====================================================
+        // CONTENT
+        // =====================================================
+
+        JPanel content =
+                new JPanel();
+
+        content.setOpaque(false);
+
+        content.setLayout(
+                new BoxLayout(
+                        content,
+                        BoxLayout.Y_AXIS
                 )
         );
 
@@ -1183,12 +1114,12 @@ public class MainFrame extends JFrame {
                 new Font(
                         "Arial",
                         Font.BOLD,
-                        12
+                        11
                 )
         );
 
         titleLabel.setForeground(
-                PRIMARY
+                SECONDARY
         );
 
         JLabel valueLabel =
@@ -1200,7 +1131,7 @@ public class MainFrame extends JFrame {
                 new Font(
                         "Arial",
                         Font.BOLD,
-                        25
+                        28
                 )
         );
 
@@ -1225,27 +1156,151 @@ public class MainFrame extends JFrame {
                 SECONDARY
         );
 
-        card.add(
+        content.add(
                 titleLabel
         );
 
-        card.add(
-                Box.createVerticalStrut(5)
+        content.add(
+                Box.createVerticalStrut(4)
         );
 
-        card.add(
+        content.add(
                 valueLabel
         );
 
-        card.add(
+        content.add(
                 Box.createVerticalStrut(3)
         );
 
-        card.add(
+        content.add(
                 descriptionLabel
         );
 
+        card.add(
+                accent,
+                BorderLayout.WEST
+        );
+
+        card.add(
+                content,
+                BorderLayout.CENTER
+        );
+
         return card;
+    }
+
+    // =========================================================
+    // ACTION BUTTON
+    // =========================================================
+
+    private JButton createActionButton(
+            String text
+    ) {
+
+        JButton button =
+                new JButton(text) {
+
+                    @Override
+                    protected void paintComponent(
+                            Graphics g
+                    ) {
+
+                        Graphics2D g2 =
+                                (Graphics2D)
+                                        g.create();
+
+                        g2.setRenderingHint(
+                                RenderingHints.KEY_ANTIALIASING,
+                                RenderingHints.VALUE_ANTIALIAS_ON
+                        );
+
+                        if (getModel().isPressed()) {
+
+                            g2.setColor(
+                                    PRIMARY_DARK
+                            );
+
+                        } else if (
+                                getModel().isRollover()
+                        ) {
+
+                            g2.setColor(
+                                    PRIMARY
+                            );
+
+                        } else {
+
+                            g2.setColor(
+                                    LIGHT_PRIMARY
+                            );
+                        }
+
+                        g2.fillRoundRect(
+                                0,
+                                0,
+                                getWidth(),
+                                getHeight(),
+                                12,
+                                12
+                        );
+
+                        g2.dispose();
+
+                        super.paintComponent(g);
+                    }
+                };
+
+        button.setPreferredSize(
+                new Dimension(
+                        150,
+                        44
+                )
+        );
+
+        button.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        13
+                )
+        );
+
+        button.setForeground(
+                PRIMARY_DARK
+        );
+
+        button.setFocusPainted(
+                false
+        );
+
+        button.setBorder(
+                BorderFactory.createEmptyBorder(
+                        8,
+                        14,
+                        8,
+                        14
+                )
+        );
+
+        button.setContentAreaFilled(
+                false
+        );
+
+        button.setBorderPainted(
+                false
+        );
+
+        button.setOpaque(
+                false
+        );
+
+        button.setCursor(
+                new Cursor(
+                        Cursor.HAND_CURSOR
+                )
+        );
+
+        return button;
     }
 
     // =========================================================
@@ -1254,47 +1309,12 @@ public class MainFrame extends JFrame {
 
     private JPanel createStudentCard() {
 
-        JPanel card =
-                new JPanel(
-                        new FlowLayout(
-                                FlowLayout.LEFT,
-                                12,
-                                15
-                        )
-                );
-
-        card.setBackground(
-                CARD
-        );
-
-        card.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        225,
-                                        228,
-                                        233
-                                )
-                        ),
-                        new EmptyBorder(
-                                10,
-                                15,
-                                10,
-                                15
-                        )
-                )
-        );
-
-        card.setMaximumSize(
-                new Dimension(
-                        Integer.MAX_VALUE,
-                        75
-                )
-        );
+        RoundedPanel card =
+                createManagementCard();
 
         JButton add =
                 createActionButton(
-                        "+ Add Student"
+                        "+  Add Student"
                 );
 
         JButton view =
@@ -1312,7 +1332,7 @@ public class MainFrame extends JFrame {
                         "Delete Student"
                 );
 
-        // Add Student
+        // Add
 
         add.addActionListener(
                 e -> {
@@ -1324,7 +1344,7 @@ public class MainFrame extends JFrame {
                 }
         );
 
-        // View Students
+        // View
 
         view.addActionListener(
                 e -> {
@@ -1336,7 +1356,7 @@ public class MainFrame extends JFrame {
                 }
         );
 
-        // Update Student
+        // Update
 
         update.addActionListener(
                 e -> {
@@ -1348,7 +1368,7 @@ public class MainFrame extends JFrame {
                 }
         );
 
-        // Delete Student
+        // Delete
 
         delete.addActionListener(
                 e -> {
@@ -1367,54 +1387,19 @@ public class MainFrame extends JFrame {
 
         return card;
     }
+
     // =========================================================
-// COURSE CARD
-// =========================================================
-
-
+    // COURSE CARD
+    // =========================================================
 
     private JPanel createCourseCard() {
 
-        JPanel card =
-                new JPanel(
-                        new FlowLayout(
-                                FlowLayout.LEFT,
-                                12,
-                                15
-                        )
-                );
-
-        card.setBackground(CARD);
-
-        card.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        225,
-                                        228,
-                                        233
-                                )
-                        ),
-                        new EmptyBorder(
-                                10,
-                                15,
-                                10,
-                                15
-                        )
-                )
-        );
-
-        card.setMaximumSize(
-                new Dimension(
-                        Integer.MAX_VALUE,
-                        75
-                )
-        );
-
+        RoundedPanel card =
+                createManagementCard();
 
         JButton add =
                 createActionButton(
-                        "+ Add Course"
+                        "+  Add Course"
                 );
 
         JButton view =
@@ -1432,37 +1417,45 @@ public class MainFrame extends JFrame {
                         "Delete Course"
                 );
 
-        add.addActionListener(e -> {
+        add.addActionListener(
+                e -> {
 
-            AddCourseFrame frame =
-                    new AddCourseFrame();
+                    AddCourseFrame frame =
+                            new AddCourseFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        view.addActionListener(e -> {
+        view.addActionListener(
+                e -> {
 
-            ViewCoursesFrame frame =
-                    new ViewCoursesFrame();
+                    ViewCoursesFrame frame =
+                            new ViewCoursesFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        update.addActionListener(e -> {
+        update.addActionListener(
+                e -> {
 
-            UpdateCourseFrame frame =
-                    new UpdateCourseFrame();
+                    UpdateCourseFrame frame =
+                            new UpdateCourseFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        delete.addActionListener(e -> {
+        delete.addActionListener(
+                e -> {
 
-            DeleteCourseFrame frame =
-                    new DeleteCourseFrame();
+                    DeleteCourseFrame frame =
+                            new DeleteCourseFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
         card.add(add);
         card.add(view);
@@ -1471,51 +1464,19 @@ public class MainFrame extends JFrame {
 
         return card;
     }
+
     // =========================================================
-// SUBJECT CARD
-// =========================================================
+    // SUBJECT CARD
+    // =========================================================
 
     private JPanel createSubjectCard() {
 
-        JPanel card =
-                new JPanel(
-                        new FlowLayout(
-                                FlowLayout.LEFT,
-                                12,
-                                15
-                        )
-                );
-
-        card.setBackground(CARD);
-
-        card.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        225,
-                                        228,
-                                        233
-                                )
-                        ),
-                        new EmptyBorder(
-                                10,
-                                15,
-                                10,
-                                15
-                        )
-                )
-        );
-
-        card.setMaximumSize(
-                new Dimension(
-                        Integer.MAX_VALUE,
-                        75
-                )
-        );
+        RoundedPanel card =
+                createManagementCard();
 
         JButton add =
                 createActionButton(
-                        "+ Add Subject"
+                        "+  Add Subject"
                 );
 
         JButton view =
@@ -1533,37 +1494,45 @@ public class MainFrame extends JFrame {
                         "Delete Subject"
                 );
 
-        add.addActionListener(e -> {
+        add.addActionListener(
+                e -> {
 
-            AddSubjectFrame frame =
-                    new AddSubjectFrame();
+                    AddSubjectFrame frame =
+                            new AddSubjectFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        view.addActionListener(e -> {
+        view.addActionListener(
+                e -> {
 
-            ViewSubjectsFrame frame =
-                    new ViewSubjectsFrame();
+                    ViewSubjectsFrame frame =
+                            new ViewSubjectsFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        update.addActionListener(e -> {
+        update.addActionListener(
+                e -> {
 
-            UpdateSubjectFrame frame =
-                    new UpdateSubjectFrame();
+                    UpdateSubjectFrame frame =
+                            new UpdateSubjectFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        delete.addActionListener(e -> {
+        delete.addActionListener(
+                e -> {
 
-            DeleteSubjectFrame frame =
-                    new DeleteSubjectFrame();
+                    DeleteSubjectFrame frame =
+                            new DeleteSubjectFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
         card.add(add);
         card.add(view);
@@ -1579,47 +1548,12 @@ public class MainFrame extends JFrame {
 
     private JPanel createMarksCard() {
 
-        JPanel card =
-                new JPanel(
-                        new FlowLayout(
-                                FlowLayout.LEFT,
-                                12,
-                                15
-                        )
-                );
-
-        card.setBackground(
-                CARD
-        );
-
-        card.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        225,
-                                        228,
-                                        233
-                                )
-                        ),
-                        new EmptyBorder(
-                                10,
-                                15,
-                                10,
-                                15
-                        )
-                )
-        );
-
-        card.setMaximumSize(
-                new Dimension(
-                        Integer.MAX_VALUE,
-                        75
-                )
-        );
+        RoundedPanel card =
+                createManagementCard();
 
         JButton add =
                 createActionButton(
-                        "+ Add Marks"
+                        "+  Add Marks"
                 );
 
         JButton view =
@@ -1637,8 +1571,6 @@ public class MainFrame extends JFrame {
                         "Delete Marks"
                 );
 
-        // Add Marks
-
         add.addActionListener(
                 e -> {
 
@@ -1648,8 +1580,6 @@ public class MainFrame extends JFrame {
                     frame.setVisible(true);
                 }
         );
-
-        // View Marks
 
         view.addActionListener(
                 e -> {
@@ -1661,8 +1591,6 @@ public class MainFrame extends JFrame {
                 }
         );
 
-        // Update Marks
-
         update.addActionListener(
                 e -> {
 
@@ -1672,8 +1600,6 @@ public class MainFrame extends JFrame {
                     frame.setVisible(true);
                 }
         );
-
-        // Delete Marks
 
         delete.addActionListener(
                 e -> {
@@ -1694,50 +1620,17 @@ public class MainFrame extends JFrame {
     }
 
     // =========================================================
-// ATTENDANCE CARD
-// =========================================================
+    // ATTENDANCE CARD
+    // =========================================================
 
     private JPanel createAttendanceCard() {
 
-        JPanel card =
-                new JPanel(
-                        new FlowLayout(
-                                FlowLayout.LEFT,
-                                12,
-                                15
-                        )
-                );
-
-        card.setBackground(CARD);
-
-        card.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        225,
-                                        228,
-                                        233
-                                )
-                        ),
-                        new EmptyBorder(
-                                10,
-                                15,
-                                10,
-                                15
-                        )
-                )
-        );
-
-        card.setMaximumSize(
-                new Dimension(
-                        Integer.MAX_VALUE,
-                        75
-                )
-        );
+        RoundedPanel card =
+                createManagementCard();
 
         JButton add =
                 createActionButton(
-                        "+ Add Attendance"
+                        "+  Add Attendance"
                 );
 
         JButton view =
@@ -1755,8 +1648,6 @@ public class MainFrame extends JFrame {
                         "Delete Attendance"
                 );
 
-        // Add Attendance
-
         add.addActionListener(
                 e -> {
 
@@ -1766,8 +1657,6 @@ public class MainFrame extends JFrame {
                     frame.setVisible(true);
                 }
         );
-
-        // View Attendance
 
         view.addActionListener(
                 e -> {
@@ -1779,8 +1668,6 @@ public class MainFrame extends JFrame {
                 }
         );
 
-        // Update Attendance
-
         update.addActionListener(
                 e -> {
 
@@ -1790,8 +1677,6 @@ public class MainFrame extends JFrame {
                     frame.setVisible(true);
                 }
         );
-
-        // Delete Attendance
 
         delete.addActionListener(
                 e -> {
@@ -1811,92 +1696,74 @@ public class MainFrame extends JFrame {
         return card;
     }
 
-
-// =========================================================
-// RESULT CARD
-// =========================================================
+    // =========================================================
+    // RESULT CARD
+    // =========================================================
 
     private JPanel createResultCard() {
 
-        JPanel card =
-                new JPanel(
-                        new FlowLayout(
-                                FlowLayout.LEFT,
-                                12,
-                                15
-                        )
-                );
-
-        card.setBackground(CARD);
-
-        card.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        225,
-                                        228,
-                                        233
-                                )
-                        ),
-                        new EmptyBorder(
-                                10,
-                                15,
-                                10,
-                                15
-                        )
-                )
-        );
-
-        card.setMaximumSize(
-                new Dimension(
-                        Integer.MAX_VALUE,
-                        75
-                )
-        );
+        RoundedPanel card =
+                createManagementCard();
 
         JButton add =
-                createActionButton("+ Add Result");
+                createActionButton(
+                        "+  Add Result"
+                );
 
         JButton view =
-                createActionButton("View Results");
+                createActionButton(
+                        "View Results"
+                );
 
         JButton update =
-                createActionButton("Update Result");
+                createActionButton(
+                        "Update Result"
+                );
 
         JButton delete =
-                createActionButton("Delete Result");
+                createActionButton(
+                        "Delete Result"
+                );
 
-        add.addActionListener(e -> {
+        add.addActionListener(
+                e -> {
 
-            AddResultFrame frame =
-                    new AddResultFrame();
+                    AddResultFrame frame =
+                            new AddResultFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        view.addActionListener(e -> {
+        view.addActionListener(
+                e -> {
 
-            ViewResultsFrame frame =
-                    new ViewResultsFrame();
+                    ViewResultsFrame frame =
+                            new ViewResultsFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        update.addActionListener(e -> {
+        update.addActionListener(
+                e -> {
 
-            UpdateResultFrame frame =
-                    new UpdateResultFrame();
+                    UpdateResultFrame frame =
+                            new UpdateResultFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
-        delete.addActionListener(e -> {
+        delete.addActionListener(
+                e -> {
 
-            DeleteResultFrame frame =
-                    new DeleteResultFrame();
+                    DeleteResultFrame frame =
+                            new DeleteResultFrame();
 
-            frame.setVisible(true);
-        });
+                    frame.setVisible(true);
+                }
+        );
 
         card.add(add);
         card.add(view);
@@ -1905,8 +1772,49 @@ public class MainFrame extends JFrame {
 
         return card;
     }
+
     // =========================================================
-    // GET STUDENT COUNT
+    // COMMON MANAGEMENT CARD
+    // =========================================================
+
+    private RoundedPanel createManagementCard() {
+
+        RoundedPanel card =
+                new RoundedPanel(18);
+
+        card.setLayout(
+                new FlowLayout(
+                        FlowLayout.LEFT,
+                        12,
+                        15
+                )
+        );
+
+        card.setBackground(
+                CARD
+        );
+
+        card.setBorder(
+                new EmptyBorder(
+                        10,
+                        15,
+                        10,
+                        15
+                )
+        );
+
+        card.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        80
+                )
+        );
+
+        return card;
+    }
+
+    // =========================================================
+    // STUDENT COUNT
     // =========================================================
 
     private int getStudentCount() {
@@ -1945,7 +1853,7 @@ public class MainFrame extends JFrame {
     }
 
     // =========================================================
-    // GET MARKS COUNT
+    // MARKS COUNT
     // =========================================================
 
     private int getMarksCount() {
@@ -1996,7 +1904,8 @@ public class MainFrame extends JFrame {
 
             if (
                     conn != null
-                            && !conn.isClosed()
+                            &&
+                            !conn.isClosed()
             ) {
 
                 return "ONLINE";
@@ -2019,37 +1928,30 @@ public class MainFrame extends JFrame {
 
     private JPanel createRecentStudentsTable() {
 
-        JPanel panel =
-                new JPanel(
-                        new BorderLayout()
-                );
+        RoundedPanel panel =
+                new RoundedPanel(18);
+
+        panel.setLayout(
+                new BorderLayout()
+        );
 
         panel.setBackground(
                 CARD
         );
 
         panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        225,
-                                        228,
-                                        233
-                                )
-                        ),
-                        new EmptyBorder(
-                                10,
-                                10,
-                                10,
-                                10
-                        )
+                new EmptyBorder(
+                        12,
+                        12,
+                        12,
+                        12
                 )
         );
 
         panel.setMaximumSize(
                 new Dimension(
                         Integer.MAX_VALUE,
-                        250
+                        270
                 )
         );
 
@@ -2086,7 +1988,13 @@ public class MainFrame extends JFrame {
         JTable table =
                 new JTable(model);
 
-        table.setRowHeight(30);
+        // =====================================================
+        // TABLE DESIGN
+        // =====================================================
+
+        table.setRowHeight(
+                34
+        );
 
         table.setFont(
                 new Font(
@@ -2100,6 +2008,45 @@ public class MainFrame extends JFrame {
                 ListSelectionModel.SINGLE_SELECTION
         );
 
+        table.setShowVerticalLines(
+                false
+        );
+
+        table.setShowHorizontalLines(
+                true
+        );
+
+        table.setGridColor(
+                new Color(
+                        238,
+                        230,
+                        234
+                )
+        );
+
+        table.setIntercellSpacing(
+                new Dimension(
+                        0,
+                        1
+                )
+        );
+
+        table.setBackground(
+                Color.WHITE
+        );
+
+        table.setSelectionBackground(
+                LIGHT_PRIMARY
+        );
+
+        table.setSelectionForeground(
+                TEXT
+        );
+
+        // =====================================================
+        // HEADER
+        // =====================================================
+
         table.getTableHeader()
                 .setFont(
                         new Font(
@@ -2111,11 +2058,7 @@ public class MainFrame extends JFrame {
 
         table.getTableHeader()
                 .setBackground(
-                        new Color(
-                                240,
-                                244,
-                                248
-                        )
+                        LIGHT_PRIMARY
                 );
 
         table.getTableHeader()
@@ -2123,15 +2066,26 @@ public class MainFrame extends JFrame {
                         TEXT
                 );
 
+        table.getTableHeader()
+                .setPreferredSize(
+                        new Dimension(
+                                0,
+                                40
+                        )
+                );
+
         // =====================================================
-        // LOAD STUDENTS FROM MYSQL
+        // LOAD STUDENTS
         // =====================================================
 
         String sql =
                 "SELECT student_id, name, age, gender, course, semester "
-                        + "FROM students "
-                        + "ORDER BY student_id DESC "
-                        + "LIMIT 5";
+                        +
+                        "FROM students "
+                        +
+                        "ORDER BY student_id DESC "
+                        +
+                        "LIMIT 5";
 
         try (
                 Connection conn =
@@ -2197,12 +2151,72 @@ public class MainFrame extends JFrame {
                 BorderFactory.createEmptyBorder()
         );
 
+        scrollPane.setBackground(
+                Color.WHITE
+        );
+
         panel.add(
                 scrollPane,
                 BorderLayout.CENTER
         );
 
         return panel;
+    }
+
+    // =========================================================
+    // ROUNDED PANEL
+    // =========================================================
+
+    private static class RoundedPanel
+            extends JPanel {
+
+        private final int radius;
+
+        public RoundedPanel(
+                int radius
+        ) {
+
+            this.radius =
+                    radius;
+
+            setOpaque(
+                    false
+            );
+        }
+
+        @Override
+        protected void paintComponent(
+                Graphics g
+        ) {
+
+            Graphics2D g2 =
+                    (Graphics2D)
+                            g.create();
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON
+            );
+
+            g2.setColor(
+                    getBackground()
+            );
+
+            g2.fill(
+                    new RoundRectangle2D.Double(
+                            0,
+                            0,
+                            getWidth() - 1,
+                            getHeight() - 1,
+                            radius,
+                            radius
+                    )
+            );
+
+            g2.dispose();
+
+            super.paintComponent(g);
+        }
     }
 
     // =========================================================
@@ -2219,7 +2233,9 @@ public class MainFrame extends JFrame {
                     MainFrame frame =
                             new MainFrame();
 
-                    frame.setVisible(true);
+                    frame.setVisible(
+                            true
+                    );
                 }
         );
     }
